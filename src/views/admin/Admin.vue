@@ -13,8 +13,8 @@ const getList = (type: string) => {
   });
 };
 onMounted(() => {
-  getList(activeIndex.value)
-}),
+  getList(activeIndex.value);
+});
 </script>
 
 <template>
