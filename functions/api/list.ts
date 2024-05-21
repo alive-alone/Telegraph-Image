@@ -5,10 +5,12 @@ export async function onRequest(context) {
   const searchParams = new URLSearchParams(url.search);
   const value = await env.img_url.list();
   const list = value.keys;
-  // if (searchParams.has("type") && searchParams.get("type") != "2") {
-
-  // } else {
-
-  // }
-  return new Response(JSON.stringify(value));
+  if (searchParams.has("type") && searchParams.get("type") != "2") {
+    const type = searchParams.get("type");
+    return new Response(
+      JSON.stringify(list.filters((item) => item.metadata.verify == type))
+    );
+  } else {
+    return new Response(JSON.stringify(list));
+  }
 }

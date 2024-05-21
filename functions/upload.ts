@@ -23,7 +23,6 @@ const addImage = async (env, id) => {
   ) {
   } else {
     //add image to kv
-    const values = { verify: 0, TimeStamp: time };
-    await env.img_url.put(id, JSON.stringify(values));
+    await env.img_url.put(id, "", { metadata: { verify: 0, TimeStamp: time } });
   }
 };
