@@ -11,7 +11,7 @@ export async function onRequest(context) {
   ) {
     const type = searchParams.get("type");
     return new Response(
-      JSON.stringify(list.filters((item) => item.metadata.verify == type))
+      JSON.stringify(list.filter((item) => item.metadata.verify == type))
     );
   } else {
     return new Response(JSON.stringify(list));
