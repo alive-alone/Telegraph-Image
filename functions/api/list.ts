@@ -10,5 +10,5 @@ export async function onRequest(context) {
   // } else {
 
   // }
-  return new Response(JSON.stringify(list));
+  return new Response(JSON.stringify(value));
 }

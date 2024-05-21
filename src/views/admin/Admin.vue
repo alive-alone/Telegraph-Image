@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
-const activeIndex = ref("1");
+const activeIndex = ref("2");
 const handleSelect = (key: string, keyPath: string[]) => {
   getList(key);
 };
@@ -12,6 +12,9 @@ const getList = (type: string) => {
     credentials: "include",
   });
 };
+onMounted(() => {
+  getList(activeIndex.value)
+}),
 </script>
 
 <template>
