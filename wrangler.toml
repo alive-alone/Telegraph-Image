@@ -1,2 +1,5 @@
 name = "misty-silence-f60e"
 pages_build_output_dir = "./dist"
+kv_namespaces = [
+  { binding = "telegraph-image", id = "83603a2404b7496386aa14e27bdb7399" }
+]
