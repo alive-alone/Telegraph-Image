@@ -1,14 +1,13 @@
 <script lang="ts" setup>
 import { ref, onMounted, reactive } from "vue";
-import { ElMessageBox } from "element-plus";
+import type { Ref } from "vue";
 
-const datas = ref([]);
+const datas = ref([]) as Ref<Array<{ name: string; metadata: object }>>;
 const dialog = reactive({
   visible: false,
   content: "",
 });
 const imgListRef = ref();
-const masonryObj = ref();
 const activeIndex = ref("2");
 const handleSelect = (key: string, keyPath: string[]) => {
   getList(key);
