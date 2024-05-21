@@ -8,7 +8,17 @@ export async function onRequest(context) {
   }).then(async (res) => {
     const json = await res.json();
     const id = json[0].src.split("/").pop();
-    addImage(env, id);
+    if (
+      typeof env.img_url == "undefined" ||
+      env.img_url == null ||
+      env.img_url == ""
+    ) {
+    } else {
+      //add image to kv
+      await env.img_url.put(id, "value", {
+        metadata: { verify: "0" },
+      });
+    }
     return new Response(JSON.stringify(json));
   });
   return res;
