@@ -2,9 +2,7 @@
 import { ref, onMounted, reactive } from "vue";
 import type { Ref } from "vue";
 
-const datas = ref([
-  { name: "https://upload-image.aliveawait.top/aafb56a07c250fd28d8e7.jpg" },
-]) as Ref<Array<{ name: string; metadata: object }>>;
+const datas = ref([]) as Ref<Array<{ name: string; metadata: object }>>;
 const dialog = reactive({
   visible: false,
   content: "",
@@ -100,7 +98,7 @@ onMounted(() => {
           >
             <el-image
               class="image"
-              :src="item.name"
+              :src="'/file/' + item.name"
               lazy
               fit="cover"
               :preview-src-list="['/file/' + item.name]"
