@@ -62,7 +62,7 @@ onMounted(() => {
           <el-menu-item index="1">已通过</el-menu-item>
           <el-menu-item index="-1">未通过</el-menu-item>
         </el-menu>
-        <div class="img-list-box" ref="imgListRef" v-if="datas.length">
+        <div class="img-list-box" ref="imgListRef" v-if="datas.length > 0">
           <div
             class="img-item grid-item"
             v-for="item in datas"
