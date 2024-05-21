@@ -6,7 +6,7 @@ const handleSelect = (key: string, keyPath: string[]) => {
   getList(key);
 };
 const getList = (type: string) => {
-  fetch(`./verify/list?type=${type}`, {
+  fetch(`../api/list?type=${type}`, {
     method: "GET",
     redirect: "follow",
     credentials: "include",
