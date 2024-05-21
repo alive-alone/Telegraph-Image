@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import { ref, onMounted, reactive } from "vue";
 import type { Ref } from "vue";
-
+import { ElMessageBox, ElMessage } from "element-plus";
+import "element-plus/theme-chalk/el-message.css";
+import "element-plus/theme-chalk/el-message-box.css";
 const datas = ref([]) as Ref<Array<{ name: string; metadata: object }>>;
 const dialog = reactive({
   visible: false,
