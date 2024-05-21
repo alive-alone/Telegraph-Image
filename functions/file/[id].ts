@@ -1,6 +1,5 @@
 export async function onRequest(context) {
   const { request, env, params } = context;
-  context.request;
   const url = new URL(request.url);
   const response = fetch("https://telegra.ph/" + url.pathname + url.search, {
     method: request.method,
@@ -17,7 +16,7 @@ export async function onRequest(context) {
         env.img_url == ""
       ) {
       } else {
-        const record = await env.img_url.get(params.id, { type: "json" });
+        const record = await env.img_url.get(params.id);
         if (record) {
           if (record.verify == "1") {
             return response;
