@@ -16,11 +16,9 @@ export async function onRequest(context) {
         env.img_url == ""
       ) {
       } else {
-        const record = await env.img_url.get(params.id);
-        if (record && record.metadata) {
-          if (record.metadata.verify == "1") {
-            return response;
-          }
+        const record = await env.img_url.getWithMetadata(params.id);
+        if (record.metadata && record.metadata.verify == "1") {
+          return response;
         }
       }
     }
