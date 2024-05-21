@@ -19,7 +19,7 @@ const handlePictureCardPreview: UploadProps["onPreview"] = (uploadFile) => {
     <h2 class="title">Telegraph-Image</h2>
     <el-upload
       v-model:file-list="fileList"
-      action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+      action="/upload"
       list-type="picture-card"
       :on-preview="handlePictureCardPreview"
     >
