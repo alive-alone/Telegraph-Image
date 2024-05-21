@@ -18,6 +18,7 @@ const handlePictureCardPreview: UploadProps["onPreview"] = (uploadFile) => {
   <div class="pages">
     <h2 class="title">Telegraph-Image</h2>
     <el-upload
+      multiple
       v-model:file-list="fileList"
       action="/upload"
       list-type="picture-card"

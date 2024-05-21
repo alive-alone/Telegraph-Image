@@ -68,6 +68,24 @@ const confirm = (type: string, id: string) => {
     });
 };
 
+const copyImgPath = (name: string) => {
+  const path = `${document.location.origin}/file/${name}`;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(path);
+  } else {
+    const textarea = document.createElement("textarea");
+    textarea.value = name;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+  }
+  ElMessage({
+    type: "success",
+    message: "已复制到剪切板",
+  });
+};
+
 onMounted(() => {
   getList(activeIndex.value);
 });
@@ -116,6 +134,13 @@ onMounted(() => {
                 >
               </div>
             </div>
+            <el-button
+              color="#626aef"
+              class="copy-btn"
+              plain
+              @click="copyImgPath(item.name)"
+              >复制链接</el-button
+            >
           </div>
         </div>
         <div class="no-content-box" v-else>
@@ -135,7 +160,7 @@ onMounted(() => {
   </el-dialog>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .pages {
   width: 100%;
   height: 100%;
@@ -156,43 +181,51 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  .img-item {
+    box-sizing: border-box;
+    margin: 5px;
+    position: relative;
+    .image {
+      width: 315px;
+      height: 420px;
+    }
+  }
 }
-.img-item {
-  box-sizing: border-box;
-  margin: 5px;
-  position: relative;
-}
-.image {
-  width: 315px;
-  height: 420px;
-}
+
 .image-control {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
+  .btn-box {
+    padding: 20px 20%;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-around;
+    background-image: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(115, 115, 115, 0) 100%
+    );
+  }
 }
-.btn-box {
-  padding: 20px 20%;
-  width: 100%;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-around;
-  background-image: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.9) 0%,
-    rgba(115, 115, 115, 0) 100%
-  );
+.copy-btn {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  font-size: 12px;
+  opacity: 0.8;
 }
 .no-content-box {
   width: 100%;
   display: flex;
   justify-content: center;
   margin-top: 10vh;
-}
-.no-content {
-  font-size: 64px;
-  letter-spacing: 10px;
-  color: rgb(219, 219, 219);
+  .no-content {
+    font-size: 64px;
+    letter-spacing: 10px;
+    color: rgb(219, 219, 219);
+  }
 }
 </style>
