@@ -2,16 +2,20 @@
 import { ref, onMounted, reactive } from "vue";
 import type { Ref } from "vue";
 
-const datas = ref([]) as Ref<Array<{ name: string; metadata: object }>>;
+const datas = ref([
+  { name: "https://upload-image.aliveawait.top/aafb56a07c250fd28d8e7.jpg" },
+]) as Ref<Array<{ name: string; metadata: object }>>;
 const dialog = reactive({
   visible: false,
   content: "",
 });
 const imgListRef = ref();
 const activeIndex = ref("2");
+
 const handleSelect = (key: string, keyPath: string[]) => {
   getList(key);
 };
+
 const getList = (type: string) => {
   fetch(`../api/list?type=${type}`, {
     method: "GET",
@@ -33,10 +37,37 @@ const getList = (type: string) => {
 };
 
 const confirm = (type: string, id: string) => {
-  dialog.content =
+  const centent =
     type == "1" ? "确定该图片通过审核？" : "确定该图片不通过审核？";
-  dialog.visible = true;
+  ElMessageBox.confirm(centent, "警告", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  })
+    .then(() => {
+      fetch(`../api/verify/${id}?type=${type}`, {
+        method: "GET",
+        redirect: "follow",
+        credentials: "include",
+      })
+        .then((res) => {
+          console.log(res);
+          if (res.status == 200) {
+            ElMessage({
+              type: "success",
+              message: "审核成功",
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch(() => {
+      // catch error
+    });
 };
+
 onMounted(() => {
   getList(activeIndex.value);
 });
@@ -69,7 +100,7 @@ onMounted(() => {
           >
             <el-image
               class="image"
-              :src="'/file/' + item.name"
+              :src="item.name"
               lazy
               fit="cover"
               :preview-src-list="['/file/' + item.name]"
@@ -98,9 +129,7 @@ onMounted(() => {
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="dialog.visible = false">取消</el-button>
-        <el-button type="primary" @click="dialog.visible = false">
-          确定
-        </el-button>
+        <el-button type="primary" @click=""> 确定 </el-button>
       </div>
     </template>
   </el-dialog>
