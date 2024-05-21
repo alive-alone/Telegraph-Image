@@ -17,8 +17,8 @@ export async function onRequest(context) {
       ) {
       } else {
         const record = await env.img_url.get(params.id);
-        if (record) {
-          if (record.verify == "1") {
+        if (record && record.metadata) {
+          if (record.metadata.verify == "1") {
             return response;
           }
         }
