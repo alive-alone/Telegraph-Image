@@ -4,7 +4,9 @@ import type { Ref } from "vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css";
 import "element-plus/theme-chalk/el-message-box.css";
-const datas = ref([]) as Ref<Array<{ name: string; metadata: object }>>;
+const datas = ref([]) as Ref<
+  Array<{ name: string; metadata: { verify: string } }>
+>;
 const dialog = reactive({
   visible: false,
   content: "",
@@ -126,10 +128,18 @@ onMounted(() => {
             />
             <div class="image-control">
               <div class="btn-box">
-                <el-button type="success" plain @click="confirm('1', item.name)"
+                <el-button
+                  :disabled="item.metadata.verify == '1'"
+                  type="success"
+                  plain
+                  @click="confirm('1', item.name)"
                   >通过</el-button
                 >
-                <el-button type="danger" plain @click="confirm('-1', item.name)"
+                <el-button
+                  :disabled="item.metadata.verify == '-1'"
+                  type="danger"
+                  plain
+                  @click="confirm('-1', item.name)"
                   >不通过</el-button
                 >
               </div>
