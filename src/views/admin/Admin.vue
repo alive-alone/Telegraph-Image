@@ -154,7 +154,7 @@ onMounted(() => {
           </div>
         </div>
         <div class="no-content-box" v-else>
-          <div class="no-content">暂无数据</div>
+          <el-empty :image-size="200" />
         </div>
       </el-main>
     </el-container>

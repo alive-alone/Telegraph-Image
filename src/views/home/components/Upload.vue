@@ -1,10 +1,24 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import { Plus } from "@element-plus/icons-vue";
 
 import type { UploadUserFile } from "element-plus";
 
+const imageViewer = reactive({
+  visible: false,
+  url: "",
+});
+const handlePictureCardPreview = (uploadFile: UploadUserFile) => {
+  imageViewer.url = uploadFile.url!;
+  imageViewer.visible = true;
+};
 const fileList = ref<UploadUserFile[]>([]);
+// const fileList = ref<UploadUserFile[]>([
+//   {
+//     name: "0",
+//     url: "	https://upload.aliveawait.top/file/44a04225751a7fc96d593.jpg",
+//   },
+// ]);
 </script>
 <template>
   <div class="pages">
@@ -12,24 +26,20 @@ const fileList = ref<UploadUserFile[]>([]);
     <el-upload
       multiple
       v-model:file-list="fileList"
-      action="/upload"
+      action="https://upload.aliveawait.top/upload"
       list-type="picture-card"
+      :on-preview="handlePictureCardPreview"
     >
       <el-icon><Plus /></el-icon>
-      <template #file="{ file }">
-        <div>
-          <el-image
-            class="el-upload-list__item-thumbnail"
-            :src="file.url"
-            alt=""
-            fit="cover"
-            :preview-src-list="[file.url]"
-          />
-        </div>
-      </template>
     </el-upload>
   </div>
-  <div></div>
+  <template v-if="imageViewer.visible">
+    <el-image-viewer
+      :urlList="[imageViewer.url]"
+      @close="() => (imageViewer.visible = false)"
+    >
+    </el-image-viewer>
+  </template>
 </template>
 <style scoped lang="scss">
 .pages {
