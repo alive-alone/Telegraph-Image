@@ -2,17 +2,9 @@
 import { ref } from "vue";
 import { Plus } from "@element-plus/icons-vue";
 
-import type { UploadProps, UploadUserFile } from "element-plus";
+import type { UploadUserFile } from "element-plus";
 
 const fileList = ref<UploadUserFile[]>([]);
-
-const dialogImageUrl = ref("");
-const dialogVisible = ref(false);
-
-const handlePictureCardPreview: UploadProps["onPreview"] = (uploadFile) => {
-  dialogImageUrl.value = uploadFile.url!;
-  dialogVisible.value = true;
-};
 </script>
 <template>
   <div class="pages">
@@ -22,17 +14,24 @@ const handlePictureCardPreview: UploadProps["onPreview"] = (uploadFile) => {
       v-model:file-list="fileList"
       action="/upload"
       list-type="picture-card"
-      :on-preview="handlePictureCardPreview"
     >
       <el-icon><Plus /></el-icon>
+      <template #file="{ file }">
+        <div>
+          <el-image
+            class="el-upload-list__item-thumbnail"
+            :src="file.url"
+            alt=""
+            fit="cover"
+            :preview-src-list="[file.url]"
+          />
+        </div>
+      </template>
     </el-upload>
   </div>
-
-  <el-dialog v-model="dialogVisible">
-    <img w-full :src="dialogImageUrl" alt="Preview Image" />
-  </el-dialog>
+  <div></div>
 </template>
-<style scoped>
+<style scoped lang="scss">
 .pages {
   position: relative;
   width: 100%;
@@ -45,5 +44,6 @@ const handlePictureCardPreview: UploadProps["onPreview"] = (uploadFile) => {
 }
 .title {
   text-align: center;
+  color: rgb(51, 11, 84);
 }
 </style>

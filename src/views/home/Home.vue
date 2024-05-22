@@ -7,7 +7,7 @@ import Upload from "./components/Upload.vue";
     <Upload></Upload>
   </div>
 </template>
-<style scoped>
+<style scoped lang="scss">
 .pages {
   width: 100%;
   height: 100%;
