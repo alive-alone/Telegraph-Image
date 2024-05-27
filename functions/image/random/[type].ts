@@ -12,7 +12,7 @@ export async function onRequest(context) {
   }
   const index = Math.floor(Math.random() * datas.length);
   const name = datas[index];
-  return fetch("https://telegra.ph/file/" + name, {
+  return await fetch("https://telegra.ph/file/" + name, {
     method: "GET",
     headers: request.headers,
   });
