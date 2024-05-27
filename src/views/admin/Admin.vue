@@ -4,6 +4,7 @@ import type { Ref } from "vue";
 import { ElMessageBox, ElMessage } from "element-plus";
 import "element-plus/theme-chalk/el-message.css";
 import "element-plus/theme-chalk/el-message-box.css";
+import { useLoading } from "@/hooks/useLoading";
 
 const datas = ref([]) as Ref<
   Array<{ name: string; metadata: { verify: string } }>
@@ -30,6 +31,8 @@ const activeIndex = ref("2");
 const checkAll = ref(false);
 const isIndeterminate = ref(false);
 const checkedId = ref([]) as Ref<Array<string>>;
+
+const Loading = useLoading();
 
 const handleSelect = (key: string, keyPath: string[]) => {
   getList(key);
@@ -65,6 +68,7 @@ const confirm = (type: string, id?: string) => {
     type: "warning",
   })
     .then(() => {
+      Loading.showLoading({ text: "请求中" });
       if (id) {
         fetch(`../api/verify/${id}?type=${type}`, {
           method: "GET",
@@ -82,6 +86,13 @@ const confirm = (type: string, id?: string) => {
           })
           .catch((err) => {
             console.log(err);
+            ElMessage({
+              type: "error",
+              message: "审核失败",
+            });
+          })
+          .finally(() => {
+            Loading.hideLoading();
           });
       } else {
         const data = {
@@ -96,7 +107,25 @@ const confirm = (type: string, id?: string) => {
           headers: {
             "Content-Type": "application/json",
           },
-        });
+        })
+          .then((res) => {
+            if (res.status == 200) {
+              ElMessage({
+                type: "success",
+                message: "审核成功",
+              });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            ElMessage({
+              type: "error",
+              message: "审核失败",
+            });
+          })
+          .finally(() => {
+            Loading.hideLoading();
+          });
       }
     })
     .catch(() => {
