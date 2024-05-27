@@ -2,15 +2,16 @@ export async function onRequest(context) {
   const { request, env, params } = context;
   let datas = [] as Array<string>;
 
-  const keys = await env.img_url.list().keys;
+  const list = await env.img_url.list();
+  const keys = list.keys;
   for (let key of keys) {
     const record = await env.img_url.getWithMetadata(key["name"]);
     if (record.metadata && record.metadata.verify == "1") {
       datas.push(key["name"] as string);
     }
   }
-
-  const name = getRandom(datas);
+  const index = Math.floor(Math.random() * datas.length);
+  const name = datas[index];
   return fetch("https://telegra.ph/file/" + name, {
     method: "GET",
     headers: request.headers,
