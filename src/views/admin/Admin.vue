@@ -33,6 +33,7 @@ const checkedId = ref([]) as Ref<Array<string>>;
 
 const handleSelect = (key: string, keyPath: string[]) => {
   getList(key);
+  initCheckParams();
 };
 
 const getList = (type: string) => {
@@ -121,6 +122,11 @@ const copyImgPath = (name: string) => {
   });
 };
 
+const initCheckParams = () => {
+  checkAll.value = false;
+  isIndeterminate.value = false;
+  checkedId.value = [];
+};
 const handleCheckAllChange = (val: boolean) => {
   checkedId.value = val ? datas.value.map((item) => item.name) : [];
   isIndeterminate.value = false;
