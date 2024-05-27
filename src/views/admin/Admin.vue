@@ -91,10 +91,10 @@ const confirm = (type: string, id?: string) => {
           method: "POST",
           redirect: "follow",
           credentials: "include",
-          headers: {
-            "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-          },
           body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+          },
         });
       }
     })
