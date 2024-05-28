@@ -58,7 +58,16 @@ const getList = (type: string) => {
     })
     .then((res) => res?.text())
     .then((res) => {
-      res && (datas.value = JSON.parse(res));
+      // res && (datas.value = JSON.parse(res));
+      if (res) {
+        let list: Array<{
+          name: string;
+          metadata: { verify: string; TimeStamp: number };
+        }> = JSON.parse(res);
+        datas.value = list.sort(
+          (a, b) => b.metadata.TimeStamp - a.metadata.TimeStamp
+        );
+      }
     })
     .catch((err) => {
       console.error(err);
