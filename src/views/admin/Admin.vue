@@ -14,13 +14,13 @@ import Tabs from "./components/Tabs.vue";
           <el-tab-pane class="content" label="全部" name="all">
             <Tabs type="2"></Tabs>
           </el-tab-pane>
-          <el-tab-pane lazy label="未审核" name="unaudited">
+          <el-tab-pane lazy class="content" label="未审核" name="unaudited">
             <Tabs type="0"></Tabs>
           </el-tab-pane>
-          <el-tab-pane lazy label="已通过" name="passed">
+          <el-tab-pane lazy class="content" label="已通过" name="passed">
             <Tabs type="1"></Tabs>
           </el-tab-pane>
-          <el-tab-pane lazy label="未通过" name="fail">
+          <el-tab-pane lazy class="content" label="未通过" name="fail">
             <Tabs type="-1"></Tabs>
           </el-tab-pane>
         </el-tabs>
