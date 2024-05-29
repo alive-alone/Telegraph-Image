@@ -5,8 +5,7 @@ export async function onRequest(context) {
   const list = await env.img_url.list();
   const keys = list.keys;
   for (let key of keys) {
-    const record = await env.img_url.getWithMetadata(key["name"]);
-    if (record.metadata && record.metadata.verify == "1") {
+    if (key.metadata && key.metadata.verify == "1") {
       datas.push(key["name"] as string);
     }
   }
