@@ -17,8 +17,8 @@ export async function onRequest(context) {
         formData: datas,
         request: request,
         uploadFile: uploadFile,
-        fileType,
-        fileName,
+        fileType: fileType,
+        fileName: fileName,
       }),
       {
         status: 500,

@@ -19,6 +19,9 @@ const fileList = ref<UploadUserFile[]>([]);
 //     url: "	https://upload.aliveawait.top/file/44a04225751a7fc96d593.jpg",
 //   },
 // ]);
+const headers = {
+  "Content-Type": "multipart/form-data",
+};
 </script>
 <template>
   <div class="pages">
@@ -29,6 +32,8 @@ const fileList = ref<UploadUserFile[]>([]);
       action="https://upload.aliveawait.top/upload"
       list-type="picture-card"
       :on-preview="handlePictureCardPreview"
+      :headers="headers"
+      name="file"
     >
       <el-icon><Plus /></el-icon>
     </el-upload>
