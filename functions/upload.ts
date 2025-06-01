@@ -1,37 +1,22 @@
-export async function onRequestPost(context) {
+export async function onRequest(context) {
   const { request, env } = context;
   try {
-    const clonedRequest = request.clone();
-    const formData = await clonedRequest.formData();
-    const datas = {};
-
+    const formData = await request.formData();
     const uploadFile = formData.get("file");
 
-    const fileType = uploadFile.type;
-    const fileName = uploadFile.name;
-    formData.forEach((value, key) => {
-      datas[key] = value;
-    });
-    console.log({
-      formData: datas,
-      request: request,
-      uploadFile: uploadFile,
-      fileType: fileType,
-      fileName: fileName,
-    });
     return new Response(
       JSON.stringify({
-        formData: datas,
-        request: request,
-        uploadFile: uploadFile,
-        fileType: fileType,
-        fileName: fileName,
+        fileType: uploadFile instanceof File,
+        type: Object.prototype.toString.call(uploadFile).slice(8, -1),
       }),
       {
-        status: 500,
+        status: 200,
         headers: { "Content-Type": "application/json" },
       }
     );
+
+    const fileType = uploadFile.type;
+    const fileName = uploadFile.name;
     const fileExtension = fileName?.split(".").pop().toLowerCase();
     const fileTypeMap = {
       "image/": { url: "sendPhoto", type: "photo" },

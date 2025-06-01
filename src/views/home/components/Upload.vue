@@ -19,21 +19,6 @@ const fileList = ref<UploadUserFile[]>([]);
 //     url: "	https://upload.aliveawait.top/file/44a04225751a7fc96d593.jpg",
 //   },
 // ]);
-const headers = {
-  "Content-Type": "multipart/form-data",
-};
-const customUpload = async (options: any) => {
-  console.error(options);
-  const formData = new FormData();
-  formData.append("file", options.file); // 关键：使用原始 File 对象
-
-  const res = await fetch("/upload", {
-    method: "POST",
-    body: formData, // 浏览器自动生成含 boundary 的 Content-Type
-  });
-  const data = await res.json();
-  options.onSuccess(data); // 通知上传成功
-};
 </script>
 <template>
   <div class="pages">
@@ -45,7 +30,6 @@ const customUpload = async (options: any) => {
       list-type="picture-card"
       :on-preview="handlePictureCardPreview"
       name="file"
-      :http-request="customUpload"
     >
       <el-icon><Plus /></el-icon>
     </el-upload>
