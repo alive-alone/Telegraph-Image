@@ -3,6 +3,10 @@ export async function onRequest(context) {
   try {
     const clonedRequest = request.clone();
     const formData = await clonedRequest.formData();
+    return new Response(JSON.stringify({ error: formData, request: request }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
     const uploadFile = formData.get("file");
     const fileType = uploadFile.type;
     const fileName = uploadFile.name;
