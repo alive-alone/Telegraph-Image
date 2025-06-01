@@ -1,7 +1,8 @@
 export async function onRequest(context) {
   const { request, env } = context;
   try {
-    const formData = await request.formData();
+    const clonedRequest = request.clone();
+    const formData = await clonedRequest.formData();
     const uploadFile = formData.get("file");
     const fileType = uploadFile.type;
     const fileName = uploadFile.name;
@@ -56,10 +57,13 @@ export async function onRequest(context) {
       }
     );
   } catch (err) {
-    return new Response(JSON.stringify({ error: err?.message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({ error: err?.message, request: request }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
   }
 }
 
