@@ -12,6 +12,13 @@ export async function onRequest(context) {
     formData.forEach((value, key) => {
       datas[key] = value;
     });
+    console.log({
+      formData: datas,
+      request: request,
+      uploadFile: uploadFile,
+      fileType: fileType,
+      fileName: fileName,
+    });
     return new Response(
       JSON.stringify({
         formData: datas,

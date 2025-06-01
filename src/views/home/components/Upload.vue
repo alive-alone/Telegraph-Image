@@ -32,7 +32,6 @@ const headers = {
       action="https://upload.aliveawait.top/upload"
       list-type="picture-card"
       :on-preview="handlePictureCardPreview"
-      :headers="headers"
       name="file"
     >
       <el-icon><Plus /></el-icon>
