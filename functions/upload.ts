@@ -3,13 +3,28 @@ export async function onRequest(context) {
   try {
     const clonedRequest = request.clone();
     const formData = await clonedRequest.formData();
-    return new Response(JSON.stringify({ error: formData, request: request }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    const datas = {};
+
     const uploadFile = formData.get("file");
+
     const fileType = uploadFile.type;
     const fileName = uploadFile.name;
+    formData.forEach((value, key) => {
+      datas[key] = value;
+    });
+    return new Response(
+      JSON.stringify({
+        formData: datas,
+        request: request,
+        uploadFile: uploadFile,
+        fileType,
+        fileName,
+      }),
+      {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
     const fileExtension = fileName?.split(".").pop().toLowerCase();
     const fileTypeMap = {
       "image/": { url: "sendPhoto", type: "photo" },
