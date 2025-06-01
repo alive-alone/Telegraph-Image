@@ -5,7 +5,7 @@ export async function onRequest(context) {
     const uploadFile = formData.get("file");
     const fileType = uploadFile.type;
     const fileName = uploadFile.name;
-    const fileExtension = fileName.split(".").pop().toLowerCase();
+    const fileExtension = fileName?.split(".").pop().toLowerCase();
     const fileTypeMap = {
       "image/": { url: "sendPhoto", type: "photo" },
       "video/": { url: "sendVideo", type: "video" },
