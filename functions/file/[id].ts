@@ -2,27 +2,15 @@ export async function onRequest(context) {
   const { request, env, params } = context;
   const url = new URL(request.url);
   let fileUrl = "https://telegra.ph/" + url.pathname + url.search;
-  console.log(url.pathname);
-  return new Response(
-    JSON.stringify({
-      token: env.TG_Bot_Token,
-      pathname: url.pathname,
-      fileId: url.pathname.split(".")[0].split("/")[2],
-    }),
-    { status: 401 }
-  );
   if (url.pathname.length > 39) {
     const formdata = new FormData();
     formdata.append("file_id", url.pathname);
-    console.log("33333", env.TG_Bot_Token);
 
     const filePath = await getFilePath(
-      env.TG_Bot_Token,
+      env.TG_BOT_TOKEN,
       url.pathname.split(".")[0].split("/")[2]
     );
-
-    console.log("222222", filePath);
-    fileUrl = `https://api.telegram.org/file/bot${env.TG_Bot_Token}/${filePath}`;
+    fileUrl = `https://api.telegram.org/file/bot${env.TG_BOT_TOKEN}/${filePath}`;
   }
   const response = fetch(fileUrl, {
     method: request.method,
@@ -59,7 +47,6 @@ async function getFilePath(token, file_id) {
     const res = await fetch(url, {
       method: "GET",
     });
-    return res;
     if (!res.ok) {
       console.error(`HTTP error! status: ${res.status}`);
       return null;
