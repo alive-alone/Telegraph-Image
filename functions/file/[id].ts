@@ -10,7 +10,14 @@ export async function onRequest(context) {
       env.TG_Bot_Token,
       url.pathname.split(".")[0].split("/")[2]
     );
-    return filePath;
+    return new Response(
+      JSON.stringify({
+        res: filePath,
+        token: env.TG_Bot_Token,
+        fileId: url.pathname.split(".")[0].split("/")[2],
+      }),
+      { status: 401 }
+    );
     console.log("222222", filePath);
     fileUrl = `https://api.telegram.org/file/bot${env.TG_Bot_Token}/${filePath}`;
   }
