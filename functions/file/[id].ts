@@ -12,7 +12,6 @@ export async function onRequest(context) {
     );
     return new Response(
       JSON.stringify({
-        res: filePath,
         token: env.TG_Bot_Token,
         fileId: url.pathname.split(".")[0].split("/")[2],
       }),
