@@ -1,9 +1,0 @@
-name = "misty-silence-f60e"
-pages_build_output_dir = "./dist"
-# Opt into backwards-incompatible changes through September 14, 2021.
-compatibility_date = "2021-09-14"
-# Also opt into an upcoming fix to the FormData API.
-compatibility_flags = [ "formdata_parser_supports_files" ]
-kv_namespaces = [
-  { binding = "img_url", id = "83603a2404b7496386aa14e27bdb7399" }
-]

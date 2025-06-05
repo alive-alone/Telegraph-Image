@@ -2,13 +2,14 @@ export async function onRequest(context) {
   const { request, env, params } = context;
   const url = new URL(request.url);
   let fileUrl = "https://telegra.ph/" + url.pathname + url.search;
+  console.log(url.pathname);
   if (url.pathname.length > 39) {
     const formdata = new FormData();
     formdata.append("file_id", url.pathname);
     console.log("33333", env.TG_Bot_Token);
     return new Response(
       JSON.stringify({
-        token: env.TG_Bot_Token,
+        token: "1",
         fileId: url.pathname.split(".")[0].split("/")[2],
       }),
       { status: 401 }
