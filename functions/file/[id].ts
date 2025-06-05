@@ -3,17 +3,19 @@ export async function onRequest(context) {
   const url = new URL(request.url);
   let fileUrl = "https://telegra.ph/" + url.pathname + url.search;
   console.log(url.pathname);
+  return new Response(
+    JSON.stringify({
+      token: env.TG_Bot_Token,
+      pathname: url.pathname,
+      fileId: url.pathname.split(".")[0].split("/")[2],
+    }),
+    { status: 401 }
+  );
   if (url.pathname.length > 39) {
     const formdata = new FormData();
     formdata.append("file_id", url.pathname);
     console.log("33333", env.TG_Bot_Token);
-    return new Response(
-      JSON.stringify({
-        token: env.TG_Bot_Token,
-        fileId: url.pathname.split(".")[0].split("/")[2],
-      }),
-      { status: 401 }
-    );
+
     const filePath = await getFilePath(
       env.TG_Bot_Token,
       url.pathname.split(".")[0].split("/")[2]
