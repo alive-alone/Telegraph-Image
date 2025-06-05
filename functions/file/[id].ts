@@ -6,10 +6,6 @@ export async function onRequest(context) {
     const formdata = new FormData();
     formdata.append("file_id", url.pathname);
     console.log("33333", env.TG_Bot_Token);
-    const filePath = await getFilePath(
-      env.TG_Bot_Token,
-      url.pathname.split(".")[0].split("/")[2]
-    );
     return new Response(
       JSON.stringify({
         token: env.TG_Bot_Token,
@@ -17,6 +13,11 @@ export async function onRequest(context) {
       }),
       { status: 401 }
     );
+    const filePath = await getFilePath(
+      env.TG_Bot_Token,
+      url.pathname.split(".")[0].split("/")[2]
+    );
+
     console.log("222222", filePath);
     fileUrl = `https://api.telegram.org/file/bot${env.TG_Bot_Token}/${filePath}`;
   }
