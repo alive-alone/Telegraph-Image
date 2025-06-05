@@ -32,11 +32,12 @@ export async function onRequest(context) {
           return response;
         }
       }
+      return new Response(
+        JSON.stringify({ state: -1, message: "图片禁止访问或不存在" }),
+        { status: 401 }
+      );
     }
-    return new Response(
-      JSON.stringify({ state: -1, message: "图片禁止访问或不存在" }),
-      { status: 401 }
-    );
+    return response;
   });
   return response;
 }
