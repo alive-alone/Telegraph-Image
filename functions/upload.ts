@@ -4,17 +4,6 @@ export async function onRequest(context) {
     const formData = await request.formData();
     const uploadFile = formData.get("file");
 
-    return new Response(
-      JSON.stringify({
-        fileType: uploadFile instanceof File,
-        type: Object.prototype.toString.call(uploadFile).slice(8, -1),
-      }),
-      {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-
     const fileType = uploadFile.type;
     const fileName = uploadFile.name;
     const fileExtension = fileName?.split(".").pop().toLowerCase();
