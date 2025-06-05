@@ -9,7 +9,7 @@ export async function onRequest(context) {
     console.log("33333", env.TG_Bot_Token);
     return new Response(
       JSON.stringify({
-        token: "1",
+        token: env.TG_Bot_Token,
         fileId: url.pathname.split(".")[0].split("/")[2],
       }),
       { status: 401 }
