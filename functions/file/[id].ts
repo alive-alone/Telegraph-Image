@@ -5,10 +5,13 @@ export async function onRequest(context) {
   if (url.pathname.length > 39) {
     const formdata = new FormData();
     formdata.append("file_id", url.pathname);
+    console.log("33333", env.TG_Bot_Token);
     const filePath = await getFilePath(
-      env,
+      env.TG_Bot_Token,
       url.pathname.split(".")[0].split("/")[2]
     );
+    return filePath;
+    console.log("222222", filePath);
     fileUrl = `https://api.telegram.org/file/bot${env.TG_Bot_Token}/${filePath}`;
   }
   const response = fetch(fileUrl, {
@@ -40,13 +43,13 @@ export async function onRequest(context) {
   return response;
 }
 
-async function getFilePath(env, file_id) {
+async function getFilePath(token, file_id) {
   try {
-    const url = `https://api.telegram.org/bot${env.TG_Bot_Token}/getFile?file_id=${file_id}`;
+    const url = `https://api.telegram.org/bot${token}/getFile?file_id=${file_id}`;
     const res = await fetch(url, {
       method: "GET",
     });
-
+    return res;
     if (!res.ok) {
       console.error(`HTTP error! status: ${res.status}`);
       return null;
