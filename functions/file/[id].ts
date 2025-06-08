@@ -18,6 +18,9 @@ export async function onRequest(context) {
     body: request.body,
   }).then(async (response) => {
     if (response.ok || (!response.ok && response.status === 304)) {
+      if (response.headers.get("Content-Disposition") == "attachment") {
+        response.headers.set("Content-Disposition", "inline");
+      }
       if (request.headers.get("Referer") == url.origin + "/admin") {
         return response;
       }
