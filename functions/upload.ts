@@ -30,7 +30,10 @@ export async function onRequest(context) {
     );
 
     if (!result.success) {
-      throw new Error(result.error);
+      return new Response(JSON.stringify(result), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
     }
     const fileId = getFileId(result.data);
 
@@ -94,7 +97,7 @@ async function uploadToTelegram(formData, resourcePath, token, retryCount = 0) {
 
     return {
       success: false,
-      error: responseData.description || "Upload to Telegram failed",
+      error: responseData,
     };
   } catch (error) {
     console.error("Network error:", error);
@@ -109,7 +112,7 @@ async function uploadToTelegram(formData, resourcePath, token, retryCount = 0) {
         retryCount + 1
       );
     }
-    return { success: false, error: "Network error occurred" };
+    return { success: false, error: error };
   }
 }
 
