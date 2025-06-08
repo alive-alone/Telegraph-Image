@@ -2,11 +2,12 @@ export async function onRequest(context) {
   const { request, env, params } = context;
   const url = new URL(request.url);
   let fileUrl = "https://telegra.ph/" + url.pathname + url.search;
+  let filePath = "";
   if (url.pathname.length > 39) {
     const formdata = new FormData();
     formdata.append("file_id", url.pathname);
 
-    const filePath = await getFilePath(
+    filePath = await getFilePath(
       env.TG_BOT_TOKEN,
       url.pathname.split(".")[0].split("/")[2]
     );
@@ -18,7 +19,13 @@ export async function onRequest(context) {
     body: request.body,
   }).then(async (response) => {
     if (response.ok || (!response.ok && response.status === 304)) {
-      if (response.headers.get("Content-Disposition") == "attachment") {
+      if (
+        response.headers.get("Content-Disposition") == "attachment" &&
+        filePath
+      ) {
+        const fileName = filePath.split("/").pop();
+        const contentType = getContentType(fileName);
+        response.headers.set("Content-Type", contentType);
         response.headers.set("Content-Disposition", "inline");
       }
       if (request.headers.get("Referer") == url.origin + "/admin") {
@@ -69,4 +76,28 @@ async function getFilePath(token, file_id) {
     console.error("Error fetching file path:", error.message);
     return null;
   }
+}
+
+function getContentType(fileName) {
+  const extension = fileName.split(".").pop().toLowerCase();
+  const mimeTypes = {
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    png: "image/png",
+    gif: "image/gif",
+    bmp: "image/bmp",
+    webp: "image/webp",
+    svg: "image/svg+xml",
+    pdf: "application/pdf",
+    txt: "text/plain",
+    html: "text/html",
+    json: "application/json",
+    mp4: "video/mp4",
+    avi: "video/x-msvideo",
+    mov: "video/quicktime",
+    wmv: "video/x-ms-wmv",
+    flv: "video/x-flv",
+    mkv: "video/x-matroska",
+  };
+  return mimeTypes[extension] || "application/octet-stream";
 }
