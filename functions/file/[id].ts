@@ -22,16 +22,14 @@ export async function onRequest(context) {
       if (filePath) {
         const fileName = filePath.split("/").pop();
         const contentType = getContentType(fileName);
-        response.headers.set("Content-Type", contentType);
-        response.headers.set("Content-Disposition", "inline");
         const fileBuffer = await response.arrayBuffer();
         const responseHeaders = {
           "Content-Disposition": "inline",
           "Access-Control-Allow-Origin": "*",
           "Content-Type": contentType,
         };
-        return new Response(JSON.stringify({ state: -1, message: "测试" }), {
-          status: 502,
+        return new Response(fileBuffer, {
+          headers: responseHeaders,
         });
       }
       if (request.headers.get("Referer") == url.origin + "/admin") {
