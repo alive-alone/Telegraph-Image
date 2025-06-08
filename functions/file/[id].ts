@@ -19,28 +19,18 @@ export async function onRequest(context) {
     body: request.body,
   }).then(async (response) => {
     if (response.ok || (!response.ok && response.status === 304)) {
-      // if (filePath) {
-      //   const fileName = filePath.split("/").pop();
-      //   const contentType = getContentType(fileName);
-      //   const fileBuffer = await response.arrayBuffer();
-      //   const responseHeaders = {
-      //     "Content-Disposition": "inline",
-      //     "Access-Control-Allow-Origin": "*",
-      //     "Content-Type": contentType,
-      //   };
-      //   return new Response(fileBuffer, {
-      //     headers: responseHeaders,
-      //   });
-
-      // }
-      if (
-        response.headers.get("Content-Disposition") == "attachment" &&
-        filePath
-      ) {
+      if (filePath) {
         const fileName = filePath.split("/").pop();
         const contentType = getContentType(fileName);
-        response.headers.set("Content-Type", contentType);
-        response.headers.set("Content-Disposition", "inline");
+        const fileBuffer = await response.arrayBuffer();
+        const responseHeaders = {
+          "Content-Disposition": "inline",
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": contentType,
+        };
+        return new Response(fileBuffer, {
+          headers: responseHeaders,
+        });
       }
       if (request.headers.get("Referer") == url.origin + "/admin") {
         return response;
