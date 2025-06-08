@@ -27,6 +27,15 @@ export async function onRequest(context) {
         const contentType = getContentType(fileName);
         response.headers.set("Content-Type", contentType);
         response.headers.set("Content-Disposition", "inline");
+        const fileBuffer = await response.arrayBuffer();
+        const responseHeaders = {
+          "Content-Disposition": "inline",
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": contentType,
+        };
+        return new Response(fileBuffer, {
+          headers: responseHeaders,
+        });
       }
       if (request.headers.get("Referer") == url.origin + "/admin") {
         return response;
