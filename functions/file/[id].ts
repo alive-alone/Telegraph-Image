@@ -19,10 +19,7 @@ export async function onRequest(context) {
     body: request.body,
   }).then(async (response) => {
     if (response.ok || (!response.ok && response.status === 304)) {
-      if (
-        response.headers.get("Content-Disposition") == "attachment" &&
-        filePath
-      ) {
+      if (filePath) {
         const fileName = filePath.split("/").pop();
         const contentType = getContentType(fileName);
         response.headers.set("Content-Type", contentType);
