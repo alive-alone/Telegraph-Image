@@ -30,8 +30,8 @@ export async function onRequest(context) {
           "Access-Control-Allow-Origin": "*",
           "Content-Type": contentType,
         };
-        return new Response(fileBuffer, {
-          headers: responseHeaders,
+        return new Response(JSON.stringify({ state: -1, message: "测试" }), {
+          status: 502,
         });
       }
       if (request.headers.get("Referer") == url.origin + "/admin") {
